@@ -48,6 +48,8 @@ h3{
 }
 #calist{
 	cursor: pointer;
+	padding: 30px;
+	border: 3px dotted #fff;
 }
 #certs div span {
 	min-width: 200px;
@@ -60,7 +62,7 @@ h3{
 	font-family: Dosis;
 }
 #body {
-   padding:10px 10px 80px 10px;
+   padding:10px 10px 120px 10px;
 }
 #footer{
 	background: rgb(0, 0, 0);
@@ -71,7 +73,7 @@ footer{
 	background: rgb(255, 0, 0);
 	color: #fff;
 	padding: 0;
-    position:absolute;
+    position:fixed;
     bottom:0;
     height: 80px;
     width: 100%;
