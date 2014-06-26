@@ -27,14 +27,27 @@ var (
 <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 <link href='https://fonts.googleapis.com/css?family=Lobster|Dosis|Montserrat' rel='stylesheet' type='text/css'>
 <style>
-body, button{
+body{
+	font-family: Montserrat;
+	padding:0;
+	margin:0;
+    background: #ff0;
+}
+button{
 	font-family: Montserrat;
 }
-h1{
+h1 {
 	font-family: Lobster;
+	background: rgb(43, 80, 226);
+	color: white;
+	margin: 0;
+	padding: 30px;
 }
 h3{
 	font-family: Dosis;
+}
+#calist{
+	cursor: pointer;
 }
 #certs div span {
 	min-width: 200px;
@@ -46,6 +59,30 @@ h3{
 #caname1{
 	font-family: Dosis;
 }
+#body {
+   padding:10px 10px 80px 10px;
+}
+#footer{
+	background: rgb(0, 0, 0);
+	margin: 20px;
+	padding: 30px;
+}
+footer{
+	background: rgb(255, 0, 0);
+	color: #fff;
+	padding: 0;
+    position:absolute;
+    bottom:0;
+    height: 80px;
+    width: 100%;
+}
+footer a{
+	font-family: Lobster;
+	color: #fff;
+}
+#cert{
+	display:none;
+}
 </style>
 </head>
 <body>
@@ -53,13 +90,18 @@ h3{
 </script>
 <body>
 	<h1>crtman - Certificate Manager</h1>
-	<h2>CA List</h3>
-	<div id="calist"></div>
-	<input type='text' id='newca' /> <button id='btnCA'>Creat CA</button>
-	<h2>Certificates</h3>
-	<div id="caname1">CA: <span id='caname' /></div>
-	<div id="certs"></div>
-	<input type='text' id='newcert' /> <button id='btnCert'>Creat Certificate</button>
+	<div id="body">
+		<h2>CA List</h3>
+		<div id="calist"></div>
+		<input type='text' id='newca' placeholder='CA' /> <button id='btnCA'>Creat CA</button>
+		<div id="cert">
+			<h2>Certificates</h3>
+			<div id="caname1">CA: <span id='caname' /></div>
+			<div id="certs"></div>
+			<input type='text' id='newcert' placeholder='Domain Name' /> <button id='btnCert'>Creat Certificate</button>
+		</div>
+	</div>
+	<footer><div id="footer">&copy;<a href="https://github.com/CossackPyra/crtman">https://github.com/CossackPyra/crtman</a></div></footer>
 </body>
 </html>`
 	code1 = `$(document).ready(function() {
@@ -136,6 +178,7 @@ function loadcerts(ca) {
 	selectedCA = ca
 	$('#caname').text(ca)
 	$('#certs').empty()
+	$('#cert').show()
 
 	var o1 = {
 		ca: ca
