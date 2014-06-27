@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"regexp"
 	"strings"
 	"sync"
 	"text/template"
@@ -326,7 +327,13 @@ func h_newca(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, `{ "error": true }`)
 			return
 		}
-		dir1 := "ca/" + m1["ca"]
+		ca := m1["ca"]
+		matched, e := regexp.MatchString("^[\\da-zA-Z]*$", ca)
+		if !matched || e != nil {
+			fmt.Fprintf(w, `{ "error": true }`)
+			return
+		}
+		dir1 := "ca/" + ca
 		os.Mkdir(dir1, 0700)
 		dir2 := dir1 + "/"
 
@@ -385,7 +392,13 @@ func h_listcerts(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, `{ "error": true }`)
 			return
 		}
-		dir1 := "ca/" + m1["ca"]
+		ca := m1["ca"]
+		matched, e := regexp.MatchString("^[\\da-zA-Z]*$", ca)
+		if !matched || e != nil {
+			fmt.Fprintf(w, `{ "error": true }`)
+			return
+		}
+		dir1 := "ca/" + ca
 		files, _ := ioutil.ReadDir(dir1)
 		m2 := map[string]bool{}
 		// var files1 []string
@@ -420,9 +433,14 @@ func h_newcert(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		domain := m1["domain"]
-		// _dir1 := "ca/" + m1["ca"] + "/"
-		// dir1 := "ca/" + m1["ca"] + "/" + domain
-		dir1 := "ca/" + m1["ca"]
+		ca := m1["ca"]
+		matched, e := regexp.MatchString("^[\\da-zA-Z]*$", ca)
+		matched1, e1 := regexp.MatchString("^[\\da-zA-Z\\.]*$", domain)
+		if !matched || !matched1 || e != nil || e1 != nil {
+			fmt.Fprintf(w, `{ "error": true }`)
+			return
+		}
+		dir1 := "ca/" + ca
 		os.Mkdir(dir1, 0700)
 		dir2 := dir1 + "/"
 
